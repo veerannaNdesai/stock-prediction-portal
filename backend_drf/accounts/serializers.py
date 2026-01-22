@@ -11,7 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username','email','password']
 
-    ''' create() function is a method from ModelSerializer class which takes validated_data as argument 
+    ''' 
+        create() function is a method from ModelSerializer class which takes validated_data as argument 
         returns the user object
     '''
     def create(self,validated_data):
