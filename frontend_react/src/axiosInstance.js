@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BaseURL = import.meta.env.VITE_BACKEND_BASE_URL
+const BaseURL = import.meta.env.VITE_BACKEND_BASE_API
 const accessToken = localStorage.getItem('accessToken')
 const axiosInstance = axios.create({
     baseURL : BaseURL,
