@@ -3,6 +3,7 @@ from django.conf import settings
 import matplotlib.pyplot as plt
 
 def get_plot_url(img_name):
+    os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
     file_path = os.path.join(settings.MEDIA_ROOT,img_name)
     plt.savefig(file_path)
     plt.close()
