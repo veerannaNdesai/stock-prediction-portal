@@ -12,10 +12,20 @@ import os
 from django.conf import settings
 from .utils import get_plot_url
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import load_model
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Create your views here.
+
+MODEL = None
+
+def get_model():
+    global MODEL
+
+    if MODEL is None:
+        from keras.models import load_model
+        MODEL = load_model("stock_prediction_model.keras")
+
+    return MODEL
 
 class StockPredictionView(APIView):
     def post(self,request):
@@ -92,7 +102,7 @@ class StockPredictionView(APIView):
             scaler = MinMaxScaler(feature_range=(0,1))
 
             # Load ML Model
-            model = load_model('stock_prediction_model.keras')
+            model = get_model()
 
             # Preparing Test Data
             past_100_days = data_training.tail(100)
