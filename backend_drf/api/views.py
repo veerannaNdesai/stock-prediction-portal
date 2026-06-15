@@ -39,6 +39,11 @@ class StockPredictionView(APIView):
             start = datetime(now.year-10,now.month,now.day)
             end = now
             df = yf.download(ticker,start,end)
+            if df.empty:
+                return Response({
+                    'error' : 'The dataframe is not listed or you entered the wrong ticker.',
+                    'status' : status.HTTP_404_NOT_FOUND
+                })
             df.reset_index(inplace=True)
 
             #plot the figure
@@ -145,11 +150,7 @@ class StockPredictionView(APIView):
             # R-Squared
             r2 = r2_score(y_test, y_predicted)
             
-            if df.empty:
-                return Response({
-                    'error' : 'The dataframe is not listed or you entered the wrong ticker.',
-                    'status' : status.HTTP_404_NOT_FOUND
-                })
+            
 
             return Response({
                 "status" : 'success',
@@ -163,4 +164,9 @@ class StockPredictionView(APIView):
                 'rmse' : rmse,
                 'r2' : r2,
             })
-        # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                  
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
